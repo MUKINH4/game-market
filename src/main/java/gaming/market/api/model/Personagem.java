@@ -29,12 +29,10 @@ public class Personagem {
     private String nome;
 
     @Enumerated(EnumType.STRING)
-    @NotBlank(message = "A classe não pode ser vazia")
     private Classe classe;
 
     @Min(value = 1, message = "O nível mínimo é 1")
     @Max(value = 99, message = "O nível máximo é 99")
-    @NotBlank(message = "O nível não pode ser vazio")
     private int nivel;
 
     private int moedas = 0;
