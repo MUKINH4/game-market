@@ -1,5 +1,9 @@
 package gaming.market.api.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
+import gaming.market.api.model.enums.Raridade;
+import gaming.market.api.model.enums.Tipo;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -9,25 +13,15 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
 import lombok.Data;
 
-enum Tipo {
-    ARMA,
-    ARMADURA,
-    POCAO,
-    ACESSORIO
-}
-
-enum Raridade {
-    COMUM,
-    RARO,
-    EPICO,
-    LENDARIO
-}
 
 @Entity
 @Data
 public class Item {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -35,19 +29,23 @@ public class Item {
     @NotBlank
     private String nome;
 
-    @NotBlank(message = "O tipo não pode ser vazio")
+    @NotNull(message = "O tipo não pode ser vazio")
     @Enumerated(EnumType.STRING)
     private Tipo tipo;
 
-    @NotBlank(message = "A raridade não pode ser vazio")
+    @NotNull(message = "A raridade não pode ser vazio")
     @Enumerated(EnumType.STRING)
     private Raridade raridade;
 
-    @NotBlank(message = "O preço não pode ser vazio")
+    @Positive
     private int preco;
 
     @ManyToOne
-    @JoinColumn(name = "personagem_id")
+    @JoinColumn(name = "personagem_id", referencedColumnName = "id")
+    @JsonBackReference
     private Personagem dono;
+
+    
+
 
 }
